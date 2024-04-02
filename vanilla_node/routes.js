@@ -7,6 +7,7 @@ const requestHandler = (req, res) => {
   switch (url) {
     case "/planet_result":
       const bodyChunks = [];
+
       return req
         .on("data", function (chunk) {
           // You can process streamed parts here...
@@ -15,7 +16,6 @@ const requestHandler = (req, res) => {
         .on("end", function () {
           var body = Buffer.concat(bodyChunks);
           const planetId = body.toString()?.split("=")[1];
-
           api
             .findById(planetId)
             .then((planets) => {
@@ -63,7 +63,8 @@ const requestHandler = (req, res) => {
       return res.end(
         "<a href= '/planet_search'>Chercher planète</a></body></html>"
       );
-    case "/":
+
+    default:
       res.writeHead(200, { "Content-Type": "text/html;charset=utf-8" });
       res.write("<html><body>");
       res.write("<h1>Unknown Page</h1>");
