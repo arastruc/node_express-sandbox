@@ -1,30 +1,29 @@
 const path = require("path");
 const express = require("express");
-const expressHbs = require("express-handlebars");
 
 const app = express();
 
-// by default it searches in a subdirectory layouts unless this configuration
-app.engine(
-  "hbs",
-  expressHbs.engine({
-    layoutsDir: "views/hbs/layouts/",
-    helpers: require("./views/hbs/handlers/handlebars"),
-    defaultLayout: "main-layout",
-    extname: "hbs",
-  })
-);
+// // #handlebars
+// const expressHbs = require("express-handlebars");
+// app.engine(
+//   "hbs",
+//   expressHbs.engine({
+//     layoutsDir: "views/hbs/layouts/",
+//     helpers: require("./views/hbs/handlers/handlebars"),
+//     defaultLayout: "main-layout",
+//     extname: "hbs",
+//   })
+// );
+
+// app.set("view engine", "hbs");
+// app.set("views", "./views/hbs");
 
 // #pug
 // app.set("view engine", "pug");
 // app.set("views", "views/pug");
 
-// #handlebars by default
-app.set("view engine", "hbs");
-app.set("views", "./views/hbs");
-
-// app.set("view engine", "ejs");
-// app.set("views", "views"); NOT Mandatory (default value directory)
+app.set("view engine", "ejs");
+app.set("views", "views/ejs");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
