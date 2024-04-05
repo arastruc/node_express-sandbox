@@ -36,7 +36,6 @@ const requestHandler = (req, res) => {
               res.writeHead(500, { "Content-Type": "application/json" });
               res.end(e);
             });
-          // ...and/or process the entire body here.
         });
 
     case "/redirect":
