@@ -5,8 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node app.ts",
-    "start-debug": "nodemon app.ts"
+    "start": "node dist/app.js",
+    "start-debug": "nodemon src/app.ts",
+    "build": "tsc"
   },
   "author": "Arnaud Astruc",
   "license": "ISC",
@@ -15,6 +16,6 @@
     "@types/node": "^20.12.4",
     "express": "^4.19.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.4"
   }
 }
