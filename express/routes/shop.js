@@ -11,6 +11,7 @@ router.get("/", (_, res) => {
     products: adminData.products,
     docTitle: "My e-shop",
     path: "/",
+    hasProducts: adminData.products.length > 0,
   }); //render call the view engine
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
 });
