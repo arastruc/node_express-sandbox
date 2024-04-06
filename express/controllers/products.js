@@ -10,10 +10,8 @@ exports.getAddProduct = (_, res) => {
 };
 
 exports.postAddProduct =  (req, res) => {
- const product =  new Product (req.body.title)
- .save()
+  new Product (req.body.title).save()
  .then(()=> res.redirect("/"))
- 
 }
 
 
