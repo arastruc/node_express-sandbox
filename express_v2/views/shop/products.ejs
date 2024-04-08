@@ -30,7 +30,8 @@
             </p>
           </div>
           <div class="card__actions">
-            <button class="btn">Add to Cart</button>
+            <a href="/products/<%= product.id %>" class="btn">Details</a>
+            <%- include('../layouts/add-cart-form.ejs', {product:product}) %>
           </div>
         </article>
         <% } %>

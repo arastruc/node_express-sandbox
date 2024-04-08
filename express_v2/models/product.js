@@ -1,5 +1,6 @@
 const fs = require("fs").promises;
 const pathDir = require("../util/path");
+const uuid = require("uuid");
 
 const p = `${pathDir}/data/product.json`;
 
@@ -30,6 +31,7 @@ module.exports = class Product {
   save() {
     return getProductsFromFile()
       .then((products) => {
+        this.id = uuid.v4();
         return [...products, this];
       })
       .then(saveProductListInFile)
@@ -38,5 +40,32 @@ module.exports = class Product {
 
   static fetchAll() {
     return getProductsFromFile().catch(console.log);
+  }
+
+  static fetchById(productId) {
+    return getProductsFromFile()
+      .then((products) => products.find(({ id }) => id === productId))
+      .catch(console.log);
+  }
+
+  update() {
+    return getProductsFromFile()
+      .then((products) => {
+        return products.map((product) => {
+          return product.id === this.id ? this : product;
+        });
+      })
+      .then((products) => {
+        saveProductListInFile(products);
+        return products;
+      })
+      .catch(console.log);
+  }
+
+  static deleteById(productId) {
+    return getProductsFromFile()
+      .then((products) => products.filter(({ id }) => id !== productId))
+      .then(saveProductListInFile)
+      .catch(console.log);
   }
 };
