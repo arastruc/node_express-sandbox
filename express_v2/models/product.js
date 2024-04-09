@@ -1,6 +1,7 @@
 const fs = require("fs").promises;
 const pathDir = require("../util/path");
 const uuid = require("uuid");
+const Cart = require("./cart");
 
 const p = `${pathDir}/data/product.json`;
 
@@ -63,7 +64,9 @@ module.exports = class Product {
   }
 
   static deleteById(productId) {
-    return getProductsFromFile()
+    return Product.fetchById(productId)
+      .then(Cart.deleteProductFromCart)
+      .then(getProductsFromFile)
       .then((products) => products.filter(({ id }) => id !== productId))
       .then(saveProductListInFile)
       .catch(console.log);
