@@ -46,7 +46,6 @@ exports.deleteProductFromCart = (req, res) => {
     .then(Cart.deleteProductFromCart)
     .then(Cart.fetchAll)
     .then(({ products }) => {
-      console.log("prod", products);
       res.render("shop/cart", {
         docTitle: "Your Cart",
         path: "/cart",
