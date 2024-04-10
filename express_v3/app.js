@@ -23,4 +23,4 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000, () => liquibase.instance.update());
+liquibase.instance.update().then(() => app.listen(3000));
