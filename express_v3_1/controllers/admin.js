@@ -8,21 +8,13 @@ exports.getAddProduct = (_, res) => {
 };
 
 exports.postAddProduct = (req, res) => {
-  Product.from(req.body)
-    .save()
-    .then(() => res.redirect("/"));
-};
-
-exports.postAddProduct = (req, res) => {
-  Product.from(req.body)
-    .save()
-    .then(() => res.redirect("/"));
+  Product.create({ ...req.body }).then(() => res.redirect("/"));
 };
 
 exports.getEditProduct = (req, res) => {
   const edit = req.query.edit;
   if (edit === "true") {
-    return Product.fetchById(req.params.id).then((product) =>
+    return Product.findByPk(req.params.id).then((product) =>
       res.render("admin/edit-product", {
         product: product,
         docTitle: "Admin Products",
@@ -34,20 +26,20 @@ exports.getEditProduct = (req, res) => {
 };
 
 exports.postEditProduct = (req, res) => {
-  const body = req.body;
-  return Product.from(body)
-    .update()
-    .then(() => res.redirect("products"));
+  const { id, ...data } = req.body;
+  return Product.update(data, { where: { id: id } }).then(() =>
+    res.redirect("products")
+  );
 };
 
 exports.deleteProductById = (req, res) => {
-  Product.deleteById(req?.params?.id).then(() => {
+  Product.destroy({ where: { id: req?.params?.id } }).then(() => {
     res.redirect("/");
   });
 };
 
 exports.getProducts = (_, res) => {
-  Product.fetchAll().then((products) =>
+  Product.findAll().then((products) =>
     res.render("admin/products", {
       products: products,
       docTitle: "Admin Products",

@@ -10,6 +10,7 @@ app.set("views", "views");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
+const sequelize = require("./config/postgre-config");
 
 //bodyParser (xml, json mais pas les files)
 app.use(express.urlencoded({ extended: true }));
@@ -23,4 +24,7 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000, () => liquibase.instance.update());
+liquibase.instance
+  .update()
+  .then(() => sequelize.sync())
+  .then(() => app.listen(3000));

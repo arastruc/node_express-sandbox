@@ -1,0 +1,20 @@
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+ <changeSet id="product-init-population" author="arnaud">
+        <insert tableName="product">
+            <column name="id" value="5fde06b8-5036-48cc-b9ca-33b59b3abe41" />
+            <column name="title" value="Mon premier Produit" />
+            <column name="description" value="la description" />
+            <column name="imageurl" value="https://placehold.co/420x420" />
+            <column name="price" value="28.50" />
+        </insert>
+</changeSet>
+
+<changeSet id="user-init-population" author="arnaud">
+    <insert tableName="user">
+        <column name="id" value="5019d8f8-d542-493d-9652-8093a1110586" />
+        <column name="name" value="Admin" />
+        <column name="email" value="admin@gmail.com" />
+    </insert>
+</changeSet>
+</databaseChangeLog>
