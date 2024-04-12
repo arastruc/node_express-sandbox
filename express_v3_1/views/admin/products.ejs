@@ -35,6 +35,18 @@
                     <button class="btn">Delete</button>
                 </form>
             </div>
+
+
+             <% if(product.users.length > 0) { %>
+              <div class="card__content">
+                <h3> Utilisateurs (<%= product.users.length %>)</h3>
+                <ul>
+                  <% for(let user of product.users) { %>
+                  <li>  <%= user.name %> </li>
+                  <% } %>
+                </ul>
+              </div>
+            <% } %>
         </article>
         <% } %>
       </div>

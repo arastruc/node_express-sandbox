@@ -4,11 +4,12 @@
     <body>
         <%- include('../layouts/nav.ejs') %>
         <main>
+        <h2>Price : <%= parseFloat(price).toFixed(2) %> €</h2>
             <% if (products.length > 0) { %>
                 <ul>
                     <% products.forEach(p => { %>
                         <li>
-                            <p><%= p.title %> (<%= p.quantity %>)</p>
+                            <p><%= p.title %> (Quantity : <%= p.cartItem.quantity %>)</p>
                             <form action="/cart-delete-item" method="POST">
                                 <input type="hidden" value="<%= p.id %>" name="productId">
                                 <button class="btn" type="submit">Delete</button>

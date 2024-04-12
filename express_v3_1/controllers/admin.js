@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const User = require("../models/user");
 
 exports.getAddProduct = (_, res) => {
   res.render("admin/add-product", {
@@ -8,7 +9,12 @@ exports.getAddProduct = (_, res) => {
 };
 
 exports.postAddProduct = (req, res) => {
-  Product.create({ ...req.body }).then(() => res.redirect("/"));
+  //Create product and then link to user
+  // Product.create({ ...req.body })
+  //   .then((product) => req.user.addProduct(product))
+
+  //Create product from the point of view of user
+  req.user.createProduct({ ...req.body }).then(() => res.redirect("/"));
 };
 
 exports.getEditProduct = (req, res) => {
@@ -39,11 +45,13 @@ exports.deleteProductById = (req, res) => {
 };
 
 exports.getProducts = (_, res) => {
-  Product.findAll().then((products) =>
+  Product.findAll({
+    include: User,
+  }).then((products) => {
     res.render("admin/products", {
       products: products,
       docTitle: "Admin Products",
       path: "/admin/products",
-    })
-  );
+    });
+  });
 };

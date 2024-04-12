@@ -1,10 +1,9 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/postgre-config");
 
-const Cart = sequelize.define(
-  "cart",
+const CartItem = sequelize.define(
+  "cartItem",
   {
-    // Model attributes are defined here
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -12,16 +11,17 @@ const Cart = sequelize.define(
       primaryKey: true,
     },
 
-    totalPrice: {
-      type: DataTypes.FLOAT,
+    quantity: {
+      type: DataTypes.INTEGER,
+      default: 0,
     },
   },
   {
-    tableName: "cart",
+    tableName: "cart_item",
     timestamps: false,
     createdAt: false,
     updatedAt: false,
   }
 );
 
-module.exports = Cart;
+module.exports = CartItem;
