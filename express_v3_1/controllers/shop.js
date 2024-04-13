@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const Order = require("../models/order");
 
 exports.getProducts = (_, res) => {
   Product.findAll().then((products) =>
@@ -96,11 +97,44 @@ exports.addCart = async (req, res) => {
     .then(() => res.redirect("/cart"));
 };
 
-exports.getOrders = (_, res) => {
-  res.render("shop/orders", {
-    docTitle: "Your orders",
-    path: "/orders",
+exports.getOrders = (req, res) => {
+  req.user.getOrders({ include: Product }).then((orders) =>
+    res.render("shop/orders", {
+      docTitle: "Your orders",
+      path: "/orders",
+      orders: orders,
+    })
+  );
+};
+
+exports.addOrder = async (req, res) => {
+  const cart = await req.user.getCart({
+    include: {
+      model: Product,
+    },
   });
+
+  const { totalPrice, products } = cart;
+
+  const order = await req.user.createOrder({
+    totalPrice: totalPrice,
+  });
+
+  return order
+    .addProducts(products)
+    .then(cart.removeProducts(products))
+    .then(() => cart.update({ totalPrice: 0 }))
+    .then(() => res.redirect("/orders"));
+};
+
+exports.getIndex = (_, res) => {
+  Product.findAll().then((products) =>
+    res.render("shop/index", {
+      products: products,
+      docTitle: "Shop",
+      path: "/",
+    })
+  );
 };
 
 exports.getCheckout = (_, res) => {

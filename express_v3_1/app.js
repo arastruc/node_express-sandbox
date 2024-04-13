@@ -9,6 +9,8 @@ const Product = require("./models/product");
 const User = require("./models/user");
 const Cart = require("./models/cart");
 const CartItem = require("./models/cart-item");
+const Order = require("./models/order");
+const OrderItem = require("./models/order-item");
 
 const app = express();
 
@@ -22,7 +24,7 @@ app.use(express.json());
 //use to serve static files (css, js, img) - static middleware
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use((req, res, next) => {
+app.use((req, _, next) => {
   return User.findOne({ where: { name: "User" } }).then((user) => {
     req.user = user;
     next();
@@ -39,6 +41,10 @@ Product.belongsToMany(User, { through: "User_Product" });
 User.hasOne(Cart);
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
+Product.belongsToMany(Order, { through: OrderItem });
+Order.belongsToMany(Product, { through: OrderItem });
+Order.belongsTo(User);
+User.hasMany(Order);
 
 sequelize
   .sync()
