@@ -4,7 +4,7 @@ export let _db: Db;
 
 export const mongoConnect = (callback: any) => {
   return MongoClient.connect(
-    "mongodb+srv://aastruc86:xxxxxxxxxxxxxx@cluster0.89y6xfd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    "mongodb+srv://aastruc86:Hji9fQf7pIWV7vOV@cluster0.89y6xfd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   )
     .then((client) => {
       _db = client.db();
