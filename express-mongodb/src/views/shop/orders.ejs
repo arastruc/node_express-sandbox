@@ -13,8 +13,8 @@
                             <h1># <%= order.id %></h1>
                             <h2> Price : <%= parseFloat(order.totalPrice).toFixed(2) %> €</h2>
                             <ul>
-                                <% order.products.forEach(product => { %>
-                                    <li><%= product.title %></li>
+                                <% order.items.forEach(product => { %>
+                                    <li><%= product.product_title %></li>
                                 <% }); %>
                             </ul>
                         </li>

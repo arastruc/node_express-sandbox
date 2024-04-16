@@ -1,4 +1,4 @@
-import CartItem from "./cart-item";
+import CartItem from "./product-item";
 
 class Cart {
   totalPrice!: number;

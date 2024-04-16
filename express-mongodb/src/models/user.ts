@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { getDb } from "../config/mongodb";
 import Product from "./product";
 import Cart from "./cart";
+import Order from "./order";
 
 class User {
   id!: string;
@@ -9,7 +10,7 @@ class User {
   email!: string;
   cart!: Cart;
 
-  static from(json: any) {
+  static from(json: any): User {
     const { id, name, email, cart } = json;
     return Object.assign(new User(), {
       id,
@@ -45,7 +46,6 @@ class User {
   }
 
   update() {
-    console.log("huhu", JSON.stringify(this));
     const db = getDb();
     return db
       .collection("users")
@@ -99,6 +99,11 @@ class User {
         { $set: { cart: new Cart(updatedCartItems) } }
       );
   }
-}
 
+  addOrder() {
+    return Order.from({ ...this.cart, userId: this.id, id: undefined })
+      .save()
+      .then(() => User.from({ ...this, cart: new Cart([]) }).update());
+  }
+}
 export default User;

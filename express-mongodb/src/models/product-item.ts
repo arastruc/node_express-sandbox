@@ -1,4 +1,4 @@
-class CartItem {
+class ProductItem {
   product_id!: string;
   product_title!: string;
   product_price!: number;
@@ -17,4 +17,4 @@ class CartItem {
   }
 }
 
-export default CartItem;
+export default ProductItem;

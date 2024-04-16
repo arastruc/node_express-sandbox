@@ -2,9 +2,11 @@ import {
   getIndex,
   getProducts,
   getProductById,
+  addOrder,
   getCart,
   addCart,
   deleteProductFromCart,
+  getOrders,
 } from "../controllers/shop";
 
 const express = require("express");
@@ -23,9 +25,9 @@ router.post("/cart", addCart);
 
 router.post("/cart-delete-item", deleteProductFromCart);
 
-// router.get("/orders", shopController.getOrders);
+router.get("/orders", getOrders);
 
-// router.post("/create-order", shopController.addOrder);
+router.post("/create-order", addOrder);
 // router.get("/checkout", shopController.getCheckout);
 
 export default router;

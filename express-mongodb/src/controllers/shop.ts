@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Product from "../models/product";
 import Cart from "../models/cart";
 import User from "../models/user";
+import Order from "../models/order";
 
 export const getProducts = (_: Request, res: Response) => {
   return Product.findAll()
@@ -62,35 +63,21 @@ export const deleteProductFromCart = (req: Request, res: Response) => {
   return user.removeFromCart(productId).then(() => res.redirect("/cart"));
 };
 
-// exports.getOrders = (req, res) => {
-//   req.user.getOrders({ include: Product }).then((orders) =>
-//     res.render("shop/orders", {
-//       docTitle: "Your orders",
-//       path: "/orders",
-//       orders: orders,
-//     })
-//   );
-// };
+export const getOrders = (req: Request, res: Response) => {
+  const user: User = req.body.user;
+  return Order.findAllFromUser(user.id).then((orders) =>
+    res.render("shop/orders", {
+      docTitle: "Your orders",
+      path: "/orders",
+      orders: orders,
+    })
+  );
+};
 
-// exports.addOrder = async (req, res) => {
-//   const cart = await req.user.getCart({
-//     include: {
-//       model: Product,
-//     },
-//   });
-
-//   const { totalPrice, products } = cart;
-
-//   const order = await req.user.createOrder({
-//     totalPrice: totalPrice,
-//   });
-
-//   return order
-//     .addProducts(products)
-//     .then(cart.removeProducts(products))
-//     .then(() => cart.update({ totalPrice: 0 }))
-//     .then(() => res.redirect("/orders"));
-// };
+export const addOrder = (req: Request, res: Response) => {
+  const currentUser: User = req.body.user;
+  return currentUser.addOrder().then(() => res.redirect("/orders"));
+};
 
 // exports.getIndex = (_, res) => {
 //   Product.findAll().then((products) =>
