@@ -64,9 +64,9 @@ function promesseRompueFunc(duration = 1500) {
 //### Async
 
 async function main() {
-  const result1 = await promesseFunc();
+  const result1 = await promesseFunc(10000);
   console.log(result1);
-  const result2 = await promesseFunc(1000);
+  const result2 = await promesseFunc(2000);
   console.log(result2);
 }
 
