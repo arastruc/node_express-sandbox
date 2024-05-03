@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import Product from "../models/product";
 
-export const getAddProduct = async (_: Request, res: Response) => {
+export const getAddProduct = async (req: Request, res: Response) => {
   return res.render("admin/add-product", {
     docTitle: "Ajouter un produit",
     path: "/admin/add-product",
+    isAuthenticated: req?.session?.user,
   });
 };
 
@@ -27,6 +28,7 @@ export const getEditProduct = (req: Request, res: Response) => {
         product: product,
         docTitle: "Admin Products",
         path: "/admin/edit-product",
+        isAuthenticated: req?.session?.user,
       })
     );
   }
@@ -47,13 +49,14 @@ export const deleteProductById = (req: Request, res: Response) => {
   });
 };
 
-export const getProducts = (_: Request, res: Response) => {
+export const getProducts = (req: Request, res: Response) => {
   return Product.find()
     .then((products: any) => {
       res.render("admin/products", {
         products: products,
         docTitle: "Admin Products",
         path: "/admin/products",
+        isAuthenticated: req?.session?.user,
       });
     })
     .catch(console.log);
