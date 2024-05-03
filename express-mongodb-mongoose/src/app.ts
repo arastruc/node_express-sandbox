@@ -43,12 +43,12 @@ app.use(
 );
 
 app.use((req: any, _: any, next: any) => {
-  if (!req.session) {
-    next();
+  if (!req.session.user) {
+    return next();
   }
   return User.findById(req.session.user._id)
     .populate("cart.items.product")
-    .then((user) => {
+    .then((user: any) => {
       req.user = user;
       next();
     })

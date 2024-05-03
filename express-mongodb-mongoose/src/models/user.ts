@@ -12,6 +12,11 @@ const usersSchema = new Schema({
     required: true,
   },
 
+  password: {
+    type: String,
+    required: true,
+  },
+
   cart: {
     items: [
       {
@@ -33,7 +38,6 @@ const usersSchema = new Schema({
 });
 
 usersSchema.methods.addToCart = function (product: any) {
-  console.log("produit", product);
   let isUpdated = false;
   let updatedCartItems = this.cart.items.map((cartItem: any) => {
     let { product: productItem, quantity } = cartItem;
