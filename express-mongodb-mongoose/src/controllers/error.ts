@@ -4,6 +4,5 @@ export const get404 = (req: Request, res: Response) => {
   res.status(404).render("not-found", {
     docTitle: "Not Found",
     path: "unknown",
-    isAuthenticated: req?.session?.user,
   });
 };

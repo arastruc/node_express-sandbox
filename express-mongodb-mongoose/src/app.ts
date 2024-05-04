@@ -5,6 +5,9 @@ import AuthRoutes from "./routes/auth";
 import { get404 } from "./controllers/error";
 import mongoose from "mongoose";
 import User from "./models/user";
+import isAuth from "./middleWare/isAuth";
+import csurf from "csurf";
+import { Request, Response } from "express";
 
 const express = require("express");
 const session = require("express-session");
@@ -19,6 +22,8 @@ const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: "sessions",
 });
+
+const csrfProtection = csurf();
 
 //bodyParser (xml, json mais pas les files)
 app.use(express.urlencoded({ extended: true }));
@@ -42,6 +47,8 @@ app.use(
   })
 );
 
+app.use(csrfProtection);
+
 app.use((req: any, _: any, next: any) => {
   if (!req.session.user) {
     return next();
@@ -58,7 +65,13 @@ app.use((req: any, _: any, next: any) => {
 app.set("view engine", "ejs");
 app.set("views", "src/views");
 
-app.use("/admin", AdminRoutes);
+app.use((req: Request, res: Response, next: any) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
+app.use("/admin", isAuth, AdminRoutes);
 app.use(AuthRoutes);
 app.use(ShopRoutes);
 

@@ -13,7 +13,6 @@ export const getLogin = async (req: Request, res: Response) => {
   return res.render("auth/login", {
     path: "/login",
     docTitle: "Login",
-    isAuthenticated: req?.session?.user,
   });
 };
 

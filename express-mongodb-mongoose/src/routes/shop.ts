@@ -8,6 +8,7 @@ import {
   deleteProductFromCart,
   getOrders,
 } from "../controllers/shop";
+import isAuth from "../middleWare/isAuth";
 
 const express = require("express");
 
@@ -19,14 +20,14 @@ router.get("/products/:id", getProductById);
 
 router.get("/products", getProducts);
 
-router.get("/cart", getCart);
+router.get("/cart", isAuth, getCart);
 
-router.post("/cart", addCart);
+router.post("/cart", isAuth, addCart);
 
-router.post("/cart-delete-item", deleteProductFromCart);
+router.post("/cart-delete-item", isAuth, deleteProductFromCart);
 
-router.get("/orders", getOrders);
+router.get("/orders", isAuth, getOrders);
 
-router.post("/create-order", addOrder);
+router.post("/create-order", isAuth, addOrder);
 
 export default router;

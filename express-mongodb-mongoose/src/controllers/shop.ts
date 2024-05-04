@@ -9,7 +9,6 @@ export const getProducts = (req: Request, res: Response) => {
         products: products,
         docTitle: "My products",
         path: "/products",
-        isAuthenticated: req?.session?.user,
       })
     )
     .catch(console.log);
@@ -23,7 +22,6 @@ export const getProductById = (req: Request, res: Response) => {
       product: product,
       docTitle: "My product detail",
       path: "/product-detail",
-      isAuthenticated: req?.session?.user,
     })
   );
 };
@@ -35,7 +33,6 @@ export const getIndex = (req: Request, res: Response) => {
         products: products,
         docTitle: "Shop",
         path: "/",
-        isAuthenticated: req?.session?.user,
       })
     )
     .catch(console.log);
@@ -48,7 +45,6 @@ export const getCart = (req: any, res: Response) => {
     path: "/cart",
     products: userCart.items,
     price: userCart.totalPrice,
-    isAuthenticated: req?.session?.user,
   });
 };
 
@@ -71,7 +67,6 @@ export const getOrders = (req: Request, res: Response) => {
       docTitle: "Your orders",
       path: "/orders",
       orders: orders,
-      isAuthenticated: req?.session?.user,
     })
   );
 };
