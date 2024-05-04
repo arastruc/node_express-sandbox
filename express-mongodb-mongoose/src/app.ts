@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import User from "./models/user";
 import isAuth from "./middleWare/isAuth";
 import csurf from "csurf";
+import flash from "express-flash";
 import { Request, Response } from "express";
 
 const express = require("express");
@@ -48,6 +49,7 @@ app.use(
 );
 
 app.use(csrfProtection);
+app.use(flash());
 
 app.use((req: any, _: any, next: any) => {
   if (!req.session.user) {

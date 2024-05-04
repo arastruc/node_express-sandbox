@@ -8,11 +8,11 @@ export const getAddProduct = async (req: Request, res: Response) => {
   });
 };
 
-export const postAddProduct = (req: Request, res: Response) => {
+export const postAddProduct = (req: any, res: Response) => {
   return new Product({
     ...req.body,
     price: +req?.body?.price,
-    userId: req.body?.user,
+    userId: req.user._id,
   })
     .save()
     .then(() => res.redirect("/"))
@@ -33,22 +33,25 @@ export const getEditProduct = (req: Request, res: Response) => {
   return res.redirect("/");
 };
 
-export const postEditProduct = (req: Request, res: Response) => {
+export const postEditProduct = async (req: any, res: Response) => {
   const id = req.body.id as string;
-  return Product.findByIdAndUpdate(id, { ...req.body }).then(() =>
-    res.redirect("products")
+  return Product.findOneAndUpdate(
+    { _id: id, userId: req.user._id },
+    { ...req.body }
+  ).then(() => res.redirect("products"));
+};
+
+export const deleteProductById = (req: any, res: Response) => {
+  const id = req?.params?.id as string;
+  return Product.findOneAndDelete({ _id: id, userId: req.user._id }).then(
+    () => {
+      res.redirect("/");
+    }
   );
 };
 
-export const deleteProductById = (req: Request, res: Response) => {
-  const id = req?.params?.id as string;
-  return Product.findByIdAndDelete(id).then(() => {
-    res.redirect("/");
-  });
-};
-
-export const getProducts = (req: Request, res: Response) => {
-  return Product.find()
+export const getProducts = (req: any, res: Response) => {
+  return Product.find({ userId: req.user._id })
     .then((products: any) => {
       res.render("admin/products", {
         products: products,

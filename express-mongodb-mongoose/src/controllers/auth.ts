@@ -10,9 +10,11 @@ declare module "express-session" {
 }
 
 export const getLogin = async (req: Request, res: Response) => {
+  let errorMessage: any = req.flash("error");
   return res.render("auth/login", {
     path: "/login",
     docTitle: "Login",
+    errorMessage: errorMessage.length > 0 && errorMessage[0],
   });
 };
 
@@ -21,6 +23,7 @@ export const postLogin = (req: Request, res: Response) => {
   return User.findOne({ email: email })
     .then((user: any) => {
       if (!user) {
+        req.flash("error", "Email ou mot de passe invalide");
         return res.redirect("/login");
       }
 
@@ -33,6 +36,7 @@ export const postLogin = (req: Request, res: Response) => {
             res.redirect("/");
           });
         } else {
+          req.flash("error", "Email ou mot de passe invalide");
           return res.redirect("/login");
         }
       });
@@ -51,10 +55,13 @@ export const postLogout = (req: Request, res: Response) => {
 };
 
 export const getSignup = (req: Request, res: Response) => {
+  let errorMessage: any = req.flash("error");
+
   res.render("auth/signup", {
     path: "/signup",
     docTitle: "Signup",
     isAuthenticated: false,
+    errorMessage: errorMessage.length > 0 && errorMessage[0],
   });
 };
 
@@ -68,6 +75,10 @@ export const postSignup = async (req: Request, res: Response) => {
   const passwordHashed = await bcrypt.hash(password, 12);
 
   if (existingUser) {
+    req.flash(
+      "error",
+      "Utilisateur existant. Merci de vous connecter ou de choisir un autre email."
+    );
     return res.redirect("/signup");
   }
 
